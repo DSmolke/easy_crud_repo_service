@@ -8,7 +8,14 @@ packages = [{include = "easy_crud_repo_service"}]
 
 [tool.poetry.dependencies]
 python = "^3.11"
+mysql-connector-python = "^8.0.33"
+python-dotenv = "^1.0.0"
+inflection = "^0.5.1"
 
+
+[tool.poetry.group.test.dependencies]
+pytest = "^7.3.1"
+coverage = "^7.2.3"
 
 [build-system]
 requires = ["poetry-core"]
