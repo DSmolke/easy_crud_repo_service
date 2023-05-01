@@ -12,12 +12,10 @@ from easy_crud_repo_service.repo.crud_repo import CrudRepo
 
 from pathlib import Path
 
-logging.basicConfig(level=logging.INFO)
 
 @pytest.fixture
 def connection_tests() -> None:
     pool = MySQLConnectionPoolBuilder(f"{Path.cwd()}\\.env").set_new_port(3306).build()
-    logging.debug(pool)
     return pool
 
 @pytest.fixture(autouse=True)

@@ -121,11 +121,3 @@ class CrudRepo:
             return entry[0] + '=' + (f"'{entry[1]}'" if isinstance(entry[1], (str, datetime, date)) else str(entry[1]))
 
         return ', '.join([to_str(item) for item in entity.__dict__.items() if item[0].lower() != 'id'])
-
-
-def main() -> None:
-    pass
-
-
-if __name__ == "__main__":
-    main()
