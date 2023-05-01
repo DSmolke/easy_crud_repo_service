@@ -12,6 +12,7 @@ mysql-connector-python = "^8.0.33"
 python-dotenv = "^1.0.0"
 inflection = "^0.5.1"
 easyvalid-data-validator = "^2.0.1"
+dbm-database-service = "^0.2.5"
 
 
 [tool.poetry.group.test.dependencies]

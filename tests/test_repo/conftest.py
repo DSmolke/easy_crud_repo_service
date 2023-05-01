@@ -1,4 +1,4 @@
-import logging
+
 
 import pytest
 from dbm_database_service.managers import MySQLDatabaseManager
