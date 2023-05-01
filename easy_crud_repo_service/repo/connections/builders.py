@@ -8,8 +8,15 @@ from mysql.connector.pooling import MySQLConnectionPool
 
 
 class MySQLConnectionPoolBuilder:
-    def __init__(self, env_path: str):
-        if load_dotenv(env_path, verbose=True):
+    def __init__(self, absolute_dotenv_path: str | None = None):
+
+        # This env variables clearance is needed to avoid 'lost'
+        # variables from previous loadings of .env if current one does not exist
+        for v in ['POOL_NAME', 'POOL_SIZE', 'POOL_RESET_SESSION', 'HOST', 'DATABASE', 'USER', 'PASSWORD', 'PORT']:
+            if v in os.environ:
+                del os.environ[v]
+        load_dotenv(absolute_dotenv_path, override=True)
+        try:
             self._pool_config_ = {
                 'pool_name': os.getenv('POOL_NAME'),
                 'pool_size': int(os.getenv('POOL_SIZE')),
@@ -30,8 +37,8 @@ class MySQLConnectionPoolBuilder:
                 'password': {Constraint.IS_TYPE: str},
                 'port': {Constraint.IS_TYPE: int},
             })
-        else:
-            raise ValueError("Env file does not exist")
+        except TypeError:
+            raise ConnectionError("File is invalid or doesn't exist")
 
     def set_pool_name(self, new_pool_name: str) -> Self:
         self._pool_config_['pool_name'] = new_pool_name

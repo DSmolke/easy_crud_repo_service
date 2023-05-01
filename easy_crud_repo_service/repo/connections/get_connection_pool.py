@@ -4,10 +4,13 @@ from dotenv import load_dotenv
 from mysql.connector.pooling import MySQLConnectionPool
 
 
-def get_connection_pool(env_path: str) -> MySQLConnectionPool:
+def get_connection_pool(absolute_dotenv_path: str) -> MySQLConnectionPool:
     """ Function creates and returns connection pool for MySQLDatabase using variables stored in .env file"""
-    if load_dotenv(env_path, verbose=True):
-
+    for v in ['POOL_NAME', 'POOL_SIZE', 'POOL_RESET_SESSION', 'HOST', 'DATABASE', 'USER', 'PASSWORD', 'PORT']:
+        if v in os.environ:
+            del os.environ[v]
+    load_dotenv(absolute_dotenv_path, override=True)
+    try:
         return MySQLConnectionPool(
             pool_name=os.getenv('POOL_NAME'),
             pool_size=int(os.getenv('POOL_SIZE')),
@@ -18,5 +21,6 @@ def get_connection_pool(env_path: str) -> MySQLConnectionPool:
             password=os.getenv('PASSWORD'),
             port=int(os.getenv('PORT'))
         )
-    raise ValueError("Env file does not exist")
+    except TypeError:
+        raise ConnectionError("File is invalid or doesn't exist")
 

@@ -10,12 +10,12 @@ class TestGetConnectionPool:
     env_path = f"{Path.cwd()}//.env"
 
     def test_connection_with_absolute_path_provided(self) -> None:
-        connection_pool = get_connection_pool(env_path=self.env_path)
+        connection_pool = get_connection_pool(absolute_dotenv_path=self.env_path)
         assert connection_pool.pool_name == "MYSQL_POOL"
         assert type(connection_pool) == MySQLConnectionPool
 
     def test_connection_with_invalid_path(self) -> None:
-        with pytest.raises(ValueError) as e:
+        with pytest.raises(ConnectionError) as e:
             get_connection_pool(f"{Path.cwd()}\\fake.env")
-        assert e.type == ValueError
-        assert e.value.args[0] == "Env file does not exist"
+        assert e.type == ConnectionError
+        assert e.value.args[0] == "File is invalid or doesn't exist"

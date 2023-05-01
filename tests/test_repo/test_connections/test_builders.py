@@ -18,10 +18,10 @@ class TestWithValidCases:
         assert type(connection_pool) == MySQLConnectionPool
 
     def test_connection_with_invalid_path(self) -> None:
-        with pytest.raises(ValueError) as e:
+        with pytest.raises(ConnectionError) as e:
             MySQLConnectionPoolBuilder(fr"{os.getcwd()}\\fake.env")
-        assert e.type == ValueError
-        assert e.value.args[0] == "Env file does not exist"
+        assert e.type == ConnectionError
+        assert e.value.args[0] == "File is invalid or doesn't exist"
 
     def test_set_pool_name(self, basic_builder) -> None:
         basic_builder.set_pool_name('NEW_POOL')
@@ -61,7 +61,7 @@ class TestWithInvalidCases:
 
     def test_set_pool_name_with_invalid_arg(self) -> None:
         with pytest.raises(ValidationError) as e:
-            MySQLConnectionPoolBuilder(env_path=self.env_path).set_pool_name(1).build()
+            MySQLConnectionPoolBuilder(absolute_dotenv_path=self.env_path).set_pool_name(1).build()
         assert e.value.args[0] == {'pool_name': ["Invalid type - isn't same type like compare type"]}
         # assert e.value.args[0] == {'pool_name': ["Invalid type - isn't same type like compare type"]}
 
