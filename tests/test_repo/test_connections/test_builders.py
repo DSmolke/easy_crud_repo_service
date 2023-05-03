@@ -10,6 +10,7 @@ from easy_crud_repo_service.repo.connections.builders import MySQLConnectionPool
 
 
 class TestWithValidCases:
+    """ Valid cases for MySQLConnectionPoolBuilder """
     env_path = f"{Path.cwd()}//.env"
 
     def test_connection_with_absolute_path_provided(self) -> None:
@@ -57,13 +58,13 @@ class TestWithValidCases:
 
 
 class TestWithInvalidCases:
+    """ Invalid cases for MySQLConnectionPoolBuilder """
     env_path = f"{Path.cwd()}//.env"
 
     def test_set_pool_name_with_invalid_arg(self) -> None:
         with pytest.raises(ValidationError) as e:
             MySQLConnectionPoolBuilder(absolute_dotenv_path=self.env_path).set_pool_name(1).build()
         assert e.value.args[0] == {'pool_name': ["Invalid type - isn't same type like compare type"]}
-        # assert e.value.args[0] == {'pool_name': ["Invalid type - isn't same type like compare type"]}
 
     def test_set_pool_size_with_invalid_arg(self) -> None:
         with pytest.raises(ValidationError) as e:

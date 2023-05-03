@@ -7,4 +7,5 @@ from easy_crud_repo_service.repo.connections.builders import MySQLConnectionPool
 
 @pytest.fixture(scope='session')
 def basic_builder():
+    """ Builder created with .env file based in /tests directory"""
     return MySQLConnectionPoolBuilder(f"{Path.cwd()}//.env")
