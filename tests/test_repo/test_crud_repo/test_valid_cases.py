@@ -86,6 +86,13 @@ class TestCrudRepo:
 
         assert insert_res == deleted_ids
 
+    def test_valid_delete_many_by_id(self, repo_tests) -> None:
+        teams_for_insert = [Team(None, 'A', 30), Team(None, 'B', 30), Team(None, 'C', 30)]
+        insert_res = repo_tests.insert_many(teams_for_insert)
+        deleted_ids = repo_tests.delete_many_by_id(insert_res)
+
+        assert insert_res == deleted_ids
+
     def test_valid_delete_all(self, repo_tests) -> None:
         deleted_ids = repo_tests.delete_all()
         assert len(deleted_ids) > 0
@@ -107,6 +114,5 @@ class TestCrudRepo:
 
     def test_valid_colum_names_and_values_for_car_object(self) -> None:
         column_names_and_values_for_update = CrudRepo._column_names_and_values_for_update(Car(1, "WW12345", date(2012, 6, 22), 'xxxxxxxxxxxxxxxxx', 'BMW', 'M5'))
-        logging.info(column_names_and_values_for_update)
-        # assert type(column_names_and_values_for_update) == str
-        # assert column_names_and_values_for_update == "order_date='2022-06-12'"
+        assert type(column_names_and_values_for_update) == str
+        assert column_names_and_values_for_update == "registration_number='WW12345', first_registration_date='2012-06-22', vin='xxxxxxxxxxxxxxxxx', brand='BMW', model='M5'"
