@@ -98,6 +98,14 @@ class CrudRepo:
             cur.execute(sql)
             return item_id
 
+    def delete_many(self, items: list[Any]) -> list[int]:
+        """ Deletes multiple rows in table using entities"""
+        items_ids = [item.id for item in items]
+        with self._get_cursor_object() as cur:
+            sql = f"delete from {self._table_name()} where id in {str(tuple(items_ids))}"
+            cur.execute(sql)
+            return items_ids
+
     def delete_all(self) -> list[int]:
         """ Deletes all rows from a table """
         with self._get_cursor_object() as cur:

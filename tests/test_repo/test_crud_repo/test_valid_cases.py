@@ -78,6 +78,14 @@ class TestCrudRepo:
         deleted__id = repo_tests.delete_one(insert_res)
         assert insert_res == deleted__id
 
+    def test_valid_delete_many(self, repo_tests) -> None:
+        teams_for_insert = [Team(None, 'A', 30), Team(None, 'B', 30), Team(None, 'C', 30)]
+        insert_res = repo_tests.insert_many(teams_for_insert)
+        teams_for_delete = [Team(insert_res[0], 'A', 30), Team(insert_res[1], 'B', 30), Team(insert_res[2], 'C', 30)]
+        deleted_ids = repo_tests.delete_many(teams_for_delete)
+
+        assert insert_res == deleted_ids
+
     def test_valid_delete_all(self, repo_tests) -> None:
         deleted_ids = repo_tests.delete_all()
         assert len(deleted_ids) > 0
