@@ -57,14 +57,14 @@ class CrudRepo:
             values = ", ".join([f"({CrudRepo._column_values_for_insert(item)})" for item in items])
             sql = f"insert into {self._table_name()} ({self._column_names_for_insert()}) values {values}"
             cur.execute(sql)
-            return [item.id for item in self.find_n_last(len(items))]
+        return [item.id for item in self.find_n_last(len(items))]
 
     def update(self, item_id: int, item: Any) -> Any:
         """ Updates database table row using provided id and object containing new values"""
         with self._get_cursor_object() as cur:
             sql = f"update {self._table_name()} set {CrudRepo._column_names_and_values_for_update(item)} where id = {item_id}"
             cur.execute(sql)
-            return self.find_one(item_id)
+        return self.find_one(item_id)
 
     def find_n_last(self, n: int) -> list[Any]:
         """ Finds n last rows in table """
