@@ -1,5 +1,11 @@
 import re
+import logging
+from datetime import date
 
+from easy_crud_repo_service.model.car import Car
+from easy_crud_repo_service.model.order import Order
+
+logging.basicConfig(level=logging.INFO)
 from easy_crud_repo_service.model.team import Team
 from easy_crud_repo_service.repo.crud_repo import CrudRepo
 
@@ -85,3 +91,14 @@ class TestCrudRepo:
         column_names_and_values_for_update = CrudRepo._column_names_and_values_for_update(Team(1, 'MALAGA', 10))
         assert type(column_names_and_values_for_update) == str
         assert column_names_and_values_for_update == "name='MALAGA', points=10"
+
+    def test_valid_colum_names_and_values_for_update_with_date_field(self) -> None:
+        column_names_and_values_for_update = CrudRepo._column_names_and_values_for_update(Order(1, date(2022, 6, 12)))
+        assert type(column_names_and_values_for_update) == str
+        assert column_names_and_values_for_update == "order_date='2022-06-12'"
+
+    def test_valid_colum_names_and_values_for_car_object(self) -> None:
+        column_names_and_values_for_update = CrudRepo._column_names_and_values_for_update(Car(1, "WW12345", date(2012, 6, 22), 'xxxxxxxxxxxxxxxxx', 'BMW', 'M5'))
+        logging.info(column_names_and_values_for_update)
+        # assert type(column_names_and_values_for_update) == str
+        # assert column_names_and_values_for_update == "order_date='2022-06-12'"

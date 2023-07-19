@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "easy-crud-repo-service"
-version = "0.1.1"
+version = "0.1.3"
 description = ""
 authors = ["Smolke <d.smolczynski1@gmail.com>"]
 readme = "README.md"

@@ -24,6 +24,7 @@ class CrudRepo:
                 connection_object.commit()
         except Error as e:
             connection_object.rollback()
+            raise e
         finally:
             if connection_object.is_connected():
                 cursor_object.close()
